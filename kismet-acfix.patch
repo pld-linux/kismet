@@ -1,0 +1,13 @@
+--- kismet-3.0.1/configure.in.orig	Thu Aug  7 06:24:06 2003
++++ kismet-3.0.1/configure.in	Fri Jan 16 11:46:50 2004
+@@ -426,8 +426,8 @@
+ 		if test $foundsyspcap = yes; then
+ 		## if we don't have a pcap.h, do a search for pcap/pcap.h
+ 		AC_CHECK_HEADER([pcap.h],
+-			[AC_DEFINE(HAVE_PCAP_H, 1, libpcap header), 
+-				AC_CHECK_HEADER([pcap/pcap.h], 
++			[AC_DEFINE(HAVE_PCAP_H, 1, libpcap header)], 
++				[AC_CHECK_HEADER([pcap/pcap.h], 
+ 					[AC_DEFINE(HAVE_PCAP_H, 1, libpcap header) AC_DEFINE(HAVE_PCAPPCAP_H, 1, pcap/pcap.h)],
+ 					AC_MSG_ERROR([found libpcap but unable to find pcap.h]))])
+ 
