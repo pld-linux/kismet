@@ -2,7 +2,7 @@ Summary:	Wireless network sniffer
 Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	3.0.1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
@@ -16,6 +16,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	expat-devel
 BuildRequires:	libpcap-devel >= 0.8.1-2
+BuildRequires:	libwiretap-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 # it uses internal structures - so strict deps
@@ -53,9 +54,9 @@ sed -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' \
 CPPFLAGS="-I/usr/include/ncurses"
 %configure \
 	--enable-syspcap \
-	--without-ethereal \
+	--with-ethereal=%{_includedir} \
 %ifarch arm
-	--enable-zaurus \
+	--enable-zaurus
 %endif
 
 %{__make} dep all
