@@ -44,11 +44,12 @@ wsparcie dla kart bez obs³ugi Monitora RF.
 %patch0 -p1
 %patch1 -p1
 
-%build
 cp Makefile.in Makefile.new
 sed -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' \
 	Makefile.new > Makefile.in
 
+%build
+cp -f /usr/share/automake/config.* .
 %{__aclocal}
 %{__autoconf}
 CPPFLAGS="-I/usr/include/ncurses"
