@@ -16,8 +16,6 @@ BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-%define		_mandir		%{_prefix}/man
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
