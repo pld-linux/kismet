@@ -1,12 +1,11 @@
 Summary:	Wireless network sniffer
 Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2.4.6
+Version:	2.8.1
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
-Patch0:		%{name}-misc_fix.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	XFree86-devel
@@ -35,11 +34,12 @@ wsparcie dla kart bez obs³ugi Monitora RF.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 cp Makefile.in Makefile.new
-sed -e 's#-o root##g' Makefile.new > Makefile.in
+sed -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' \
+	Makefile.new > Makefile.in
+
 %configure \
 	CPPFLAGS="-I%{_includedir}/X11 -I/usr/include/ncurses" \
 %ifarch arm
@@ -62,6 +62,7 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir}}
 	BIN=$RPM_BUILD_ROOT%{_bindir} \
 	SHARE=$RPM_BUILD_ROOT%{_datadir}/%{name} \
 	MAN=$RPM_BUILD_ROOT%{_mandir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
