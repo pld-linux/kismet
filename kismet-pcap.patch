@@ -1,0 +1,15 @@
+--- kismet-3.0.1/pcapsource.h.orig	Tue Aug  5 07:43:40 2003
++++ kismet-3.0.1/pcapsource.h	Fri Jan 16 13:28:38 2004
+@@ -29,10 +29,10 @@
+ extern "C" {
+ #ifndef HAVE_PCAPPCAP_H
+ #include <pcap.h>
+-#include <net/bpf.h>
++#include <pcap-bpf.h>
+ #else
+ #include <pcap/pcap.h>
+-#include <pcap/net/bpf.h>
++#include <pcap/pcap-bpf.h>
+ #endif
+ }
+ 
