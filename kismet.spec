@@ -17,7 +17,7 @@ BuildRequires:	automake
 BuildRequires:	expat-devel
 BuildRequires:	libpcap-devel >= 2:0.8.1-2
 BuildRequires:	libwiretap-devel
-BuildRequires:	ncurses-devel
+BuildRequires:	ncurses-ext-devel
 BuildRequires:	zlib-devel
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
