@@ -34,7 +34,7 @@ support.
 %description -l pl
 Kismet to sniffer bezprzewodowych sieci 802.11b. Jest zdolny do
 sniffowania u¿ywaj±c prawie dowolnych bezprzewodowych kart sieciowych
-w Linuxie w³±czaj±c w to karty Prism2 wspierane przez projekt Wlan-NG
+w Linuksie w³±czaj±c w to karty Prism2 wspierane przez projekt Wlan-NG
 (Linksys, Dlink, Rangelan, etc), kart które umo¿liwiaj±
 przechwytywanie pakietów poprzez libpcap (Cisco), oraz ograniczone
 wsparcie dla kart bez obs³ugi Monitora RF.
