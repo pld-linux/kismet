@@ -5,7 +5,7 @@ Version:	2.4.6
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
-Source0:	http://www.kismetwireless.net/%{name}-%{version}.tar.gz
+Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
 Patch0:		%{name}-misc_fix.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
