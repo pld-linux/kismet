@@ -6,6 +6,7 @@ Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
+# Source0-md5:	7839368a4e5feee7d41b6582b3b8c3ab
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	XFree86-devel
