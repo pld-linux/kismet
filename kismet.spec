@@ -7,15 +7,20 @@ License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
 # Source0-md5:	7ba34081eb93d7ca27377593ba40524b
+Patch0:		%{name}-acfix.patch
+Patch1:		%{name}-pcap.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	XFree86-devel
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	expat-devel
-BuildRequires:	libpcap-devel
+BuildRequires:	libpcap-devel >= 0.8.1-2
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
+# it uses internal structures - so strict deps
+%requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
@@ -35,20 +40,20 @@ wsparcie dla kart bez obs³ugi Monitora RF.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 cp Makefile.in Makefile.new
 sed -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' \
 	Makefile.new > Makefile.in
 
-cd libpcap-0.7.2
 %{__aclocal}
 %{__autoconf}
-cd ..
-%{__aclocal}
-%{__autoconf}
+CPPFLAGS="-I/usr/include/ncurses"
 %configure \
-	CPPFLAGS="-I%{_includedir}/X11 -I/usr/include/ncurses" \
+	--enable-syspcap \
+	--without-ethereal \
 %ifarch arm
 	--enable-zaurus \
 %endif
@@ -57,7 +62,6 @@ cd ..
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir}}
 
 %{__make} install \
@@ -80,4 +84,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*_manuf
 %{_datadir}/%{name}
 %{_mandir}/man?/*
-%config(noreplace) %{_sysconfdir}/%{name}*
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}*
