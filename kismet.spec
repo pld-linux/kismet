@@ -1,12 +1,12 @@
 Summary:	Wireless network sniffer
 Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2.8.1
+Version:	3.0.1
 Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
-# Source0-md5:	7839368a4e5feee7d41b6582b3b8c3ab
+# Source0-md5:	7ba34081eb93d7ca27377593ba40524b
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	XFree86-devel
@@ -41,12 +41,18 @@ cp Makefile.in Makefile.new
 sed -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' \
 	Makefile.new > Makefile.in
 
+cd libpcap-0.7.2
+%{__aclocal}
+%{__autoconf}
+cd ..
+%{__aclocal}
+%{__autoconf}
 %configure \
 	CPPFLAGS="-I%{_includedir}/X11 -I/usr/include/ncurses" \
 %ifarch arm
 	--enable-zaurus \
 %endif
-	--enable-syspcap
+
 %{__make} dep all
 
 %install
@@ -71,6 +77,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc docs/* CHANGELOG FAQ README
 %attr(755,root,root) %{_bindir}/*
+%{_sysconfdir}/*_manuf
 %{_datadir}/%{name}
 %{_mandir}/man?/*
 %config(noreplace) %{_sysconfdir}/%{name}*
