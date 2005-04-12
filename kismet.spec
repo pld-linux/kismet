@@ -22,7 +22,7 @@ BuildRequires:	ncurses-ext-devel
 BuildRequires:	zlib-devel
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
-BuildRoot:	%{tmpdir}/%{name}-%{_ver}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
