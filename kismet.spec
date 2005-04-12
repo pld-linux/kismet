@@ -1,12 +1,13 @@
 Summary:	Wireless network sniffer
 Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	3.0.1
+Version:	2005_04_R1
+%define _ver 2005-04-R1
 Release:	5
 License:	GPL
 Group:		Networking/Utilities
-Source0:	http://www.kismetwireless.net/code/%{name}-%{version}.tar.gz
-# Source0-md5:	7ba34081eb93d7ca27377593ba40524b
+Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
+# Source0-md5:  	
 Patch0:		%{name}-acfix.patch
 Patch1:		%{name}-pcap.patch
 URL:		http://www.kismetwireless.net/
@@ -21,7 +22,7 @@ BuildRequires:	ncurses-ext-devel
 BuildRequires:	zlib-devel
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{_ver}-root-%(id -u -n)
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
@@ -40,7 +41,7 @@ przechwytywanie pakietów poprzez libpcap (Cisco), oraz ograniczone
 wsparcie dla kart bez obs³ugi Monitora RF.
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{_ver}
 %patch0 -p1
 %patch1 -p1
 
