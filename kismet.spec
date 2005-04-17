@@ -1,3 +1,7 @@
+#
+# TODO: Anybody knows, why it will not build, 
+#	when kernel-headers are installed?
+#
 Summary:	Wireless network sniffer
 Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
@@ -7,15 +11,16 @@ Release:	5
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
-# Source0-md5:  	
-Patch0:		%{name}-acfix.patch
-Patch1:		%{name}-pcap.patch
+# Source0-md5:	19b4f192eb11a418ed3f6bf65c1226af
+#Patch0:		%{name}-acfix.patch
+#Patch1:		%{name}-pcap.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	expat-devel
+BuildRequires:	gmp-devel
 BuildRequires:	libpcap-devel >= 2:0.8.1-2
 BuildRequires:	libwiretap-devel
 BuildRequires:	ncurses-ext-devel
@@ -42,8 +47,8 @@ wsparcie dla kart bez obs³ugi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{_ver}
-%patch0 -p1
-%patch1 -p1
+#%patch0 -p1
+#%patch1 -p1
 
 cp Makefile.in Makefile.new
 sed -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' \
@@ -61,7 +66,7 @@ CPPFLAGS="-I/usr/include/ncurses"
 	--enable-zaurus
 %endif
 
-%{__make} dep all
+%{__make} 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -82,7 +87,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc docs/* CHANGELOG FAQ README
+%doc docs/* CHANGELOG CHANGELOG-OLD README
 %attr(755,root,root) %{_bindir}/*
 %{_sysconfdir}/*_manuf
 %{_datadir}/%{name}
