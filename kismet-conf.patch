@@ -1,0 +1,11 @@
+--- configure.in.orig	2005-04-21 16:41:08.091148704 +0200
++++ configure.in	2005-04-21 16:37:50.959117328 +0200
+@@ -328,7 +328,7 @@
+ [  --with-linuxheaders[=DIR]     Custom location of the Linux kernel headers ],
+ [
+     if test $withval = no; then
+-        CPPFLAGS="$CPPFLAGS -I/lib/modules/$(uname -r)/build/include/"   
++        CPPFLAGS="$CPPFLAGS"   
+     elif test $withval = yes; then
+         CPPFLAGS="$CPPFLAGS -I/lib/modules/$(uname -r)/build/include/"   
+     else
