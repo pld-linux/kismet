@@ -5,14 +5,14 @@
 Summary:	Wireless network sniffer
 Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2005_04_R1
-%define _ver 2005-04-R1
-Release:	5
+Version:	2005_06_R1
+%define _ver 2005-06-R1
+Release:	0.1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
-# Source0-md5:	19b4f192eb11a418ed3f6bf65c1226af
-Patch0:		%{name}-conf.patch
+# Source0-md5:	253ed1e6c2c53e35864385965ef596f6
+#Patch0:		%{name}-conf.patch
 #Patch1:		%{name}-pcap.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
@@ -47,7 +47,7 @@ wsparcie dla kart bez obs³ugi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{_ver}
-%patch0 -p0
+#%patch0 -p0
 #%patch1 -p1
 
 cp Makefile.in Makefile.new
