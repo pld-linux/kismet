@@ -16,15 +16,13 @@ Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
 #Patch1:		%{name}-pcap.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
-BuildRequires:	XFree86-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	expat-devel
 BuildRequires:	gmp-devel
 BuildRequires:	libpcap-devel >= 2:0.8.1-2
+BuildRequires:	libstdc++-devel
 BuildRequires:	libwiretap-devel
 BuildRequires:	ncurses-ext-devel
-BuildRequires:	zlib-devel
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
