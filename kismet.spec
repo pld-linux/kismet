@@ -1,5 +1,5 @@
 #
-# TODO: Anybody knows, why it will not build, 
+# TODO: Anybody knows, why it will not build,
 #	when kernel-headers are installed?
 #
 Summary:	Wireless network sniffer
@@ -61,7 +61,7 @@ CPPFLAGS="-I/usr/include/ncurses"
 	--enable-zaurus
 %endif
 
-%{__make} 
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -87,4 +87,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/*_manuf
 %{_datadir}/%{name}
 %{_mandir}/man?/*
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/%{name}*
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}*
