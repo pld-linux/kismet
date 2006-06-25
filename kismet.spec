@@ -7,7 +7,7 @@ Summary(pl):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2006_04_R1
 %define	_ver	2006-04-R1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
@@ -17,7 +17,7 @@ BuildRequires:	ImageMagick-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gmp-devel
-BuildRequires:	libpcap-devel >= 2:0.8.1-2
+BuildRequires:	libpcap-devel >= 2:0.9.4-1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libwiretap-devel
 BuildRequires:	ncurses-ext-devel
