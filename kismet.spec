@@ -3,7 +3,7 @@
 #	when kernel-headers are installed?
 #
 Summary:	Wireless network sniffer
-Summary(pl):	Sniffer sieci bezprzewodowych
+Summary(pl.UTF-8):   Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2006_04_R1
 %define	_ver	2006-04-R1
@@ -33,13 +33,13 @@ Rangelan, etc), cards which support standard packet capture via
 libpcap (Cisco), and limited support for cards without RF Monitor
 support.
 
-%description -l pl
+%description -l pl.UTF-8
 Kismet to sniffer bezprzewodowych sieci 802.11b. Jest zdolny do
-sniffowania u¿ywaj±c prawie dowolnych bezprzewodowych kart sieciowych
-w Linuksie w³±czaj±c w to karty Prism2 wspierane przez projekt Wlan-NG
-(Linksys, Dlink, Rangelan, etc), kart które umo¿liwiaj±
-przechwytywanie pakietów poprzez libpcap (Cisco), oraz ograniczone
-wsparcie dla kart bez obs³ugi Monitora RF.
+sniffowania uÅ¼ywajÄ…c prawie dowolnych bezprzewodowych kart sieciowych
+w Linuksie wÅ‚Ä…czajÄ…c w to karty Prism2 wspierane przez projekt Wlan-NG
+(Linksys, Dlink, Rangelan, etc), kart ktÃ³re umoÅ¼liwiajÄ…
+przechwytywanie pakietÃ³w poprzez libpcap (Cisco), oraz ograniczone
+wsparcie dla kart bez obsÅ‚ugi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{_ver}
