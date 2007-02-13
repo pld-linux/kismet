@@ -3,7 +3,7 @@
 #	when kernel-headers are installed?
 #
 Summary:	Wireless network sniffer
-Summary(pl.UTF-8):   Sniffer sieci bezprzewodowych
+Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2006_04_R1
 %define	_ver	2006-04-R1
