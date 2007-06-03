@@ -5,13 +5,13 @@
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2006_04_R1
-%define	_ver	2006-04-R1
-Release:	3
+Version:	2007_01_R1b
+%define	_ver	2007-01-R1b
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
-# Source0-md5:	8ec2de513f2911df1b7edfcba5ad1c26
+# Source0-md5:	a1dcea71f0c3f881ef72f5bca2db7b39
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	autoconf
