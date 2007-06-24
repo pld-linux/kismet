@@ -1,0 +1,12 @@
+diff -urN kismet-2007-01-R1b.org/gpsmap.cc kismet-2007-01-R1b/gpsmap.cc
+--- kismet-2007-01-R1b.org/gpsmap.cc	2006-05-20 21:41:16.000000000 +0200
++++ kismet-2007-01-R1b/gpsmap.cc	2007-06-24 13:43:22.900716142 +0200
+@@ -2246,7 +2246,7 @@
+     for (int t = 0; t < numthreads; t++) {
+         void *tmp;
+         pthread_join(mapthread[t], &tmp);
+-	thread_status = reinterpret_cast<int>(tmp);
++	thread_status = reinterpret_cast<long>(tmp);
+     }
+ #else
+     // Run one instance of our "thread".  thread number 0, it should just crunch it all
