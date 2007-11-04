@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2007_10_R1
 %define	_ver	2007-10-R1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
