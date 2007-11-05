@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2007_10_R1
 %define	_ver	2007-10-R1
-Release:	2
+Release:	3
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
@@ -52,7 +52,7 @@ sed -i -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' Makefile.in
 cp -f /usr/share/automake/config.* .
 %{__aclocal}
 %{__autoconf}
-CPPFLAGS="-I/usr/include/ncurses"
+CPPFLAGS="-I/usr/include/ncurses -DDBUS_API_SUBJECT_TO_CHANGE"
 %configure \
 	--enable-syspcap \
 	--with-linuxheaders=no \
