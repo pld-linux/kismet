@@ -21,6 +21,7 @@ BuildRequires:	libpcap-devel >= 2:0.9.4-1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libwiretap-devel
 BuildRequires:	ncurses-ext-devel
+BuildRequires:	pkgconfig
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
