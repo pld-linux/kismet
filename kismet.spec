@@ -7,16 +7,18 @@ Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2010_01_R1
 %define	_ver	2010-01-R1
-Release:	1
+Release:	2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
 # Source0-md5:	a6d6edcf65d5bb2cb5de6472bcc16f19
+Patch0:		%{name}-if_arp.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	ImageMagick-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gmp-devel
+BuildRequires:	libnl-devel
 BuildRequires:	libpcap-devel >= 2:0.9.4-1
 BuildRequires:	libstdc++-devel
 BuildRequires:	libwiretap-devel
@@ -44,6 +46,7 @@ wsparcie dla kart bez obsługi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{_ver}
+%patch0 -p1
 
 sed -i -e 's#-o $(INSTUSR)##g' -e 's#-o $(INSTGRP)##g' Makefile.in
 
