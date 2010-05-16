@@ -14,15 +14,17 @@ Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
 # Source0-md5:	a6d6edcf65d5bb2cb5de6472bcc16f19
 Patch0:		%{name}-if_arp.patch
 URL:		http://www.kismetwireless.net/
-BuildRequires:	ImageMagick-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	bluez-libs-devel
 BuildRequires:	gmp-devel
+BuildRequires:	libcap-devel
 BuildRequires:	libnl-devel
 BuildRequires:	libpcap-devel >= 2:0.9.4-1
 BuildRequires:	libstdc++-devel
-BuildRequires:	libwiretap-devel
 BuildRequires:	ncurses-ext-devel
+BuildRequires:	openssl-devel
+BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
