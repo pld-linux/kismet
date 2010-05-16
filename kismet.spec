@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2010_01_R1
 %define	_ver	2010-01-R1
-Release:	4
+Release:	5
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
@@ -27,6 +27,8 @@ BuildRequires:	pkgconfig
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define	plugins	plugin-autowep plugin-btscan plugin-ptw plugin-spectools
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
@@ -65,6 +67,11 @@ CPPFLAGS="-I/usr/include/ncurses"
 
 %{__make}
 
+for plugin in %plugins; do
+	sed -ie 's/install -o $(INSTUSR) -g $(INSTGRP)/install/' $plugin/Makefile
+	%{__make} KIS_SRC_DIR=$PWD -C $plugin;
+done
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir}}
@@ -79,6 +86,18 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir}}
 	SHARE=$RPM_BUILD_ROOT%{_datadir}/%{name} \
 	MAN=$RPM_BUILD_ROOT%{_mandir}
 
+for plugin in %plugins; do
+	%{__make} KIS_SRC_DIR=$PWD -C $plugin install \
+		INSTGRP=$(id -g) \
+		MANGRP=$(id -g) \
+		prefix=$RPM_BUILD_ROOT%{_prefix} \
+		exec_prefix=$RPM_BUILD_ROOT%{_prefix} \
+		ETC=$RPM_BUILD_ROOT%{_sysconfdir} \
+		BIN=$RPM_BUILD_ROOT%{_bindir} \
+		SHARE=$RPM_BUILD_ROOT%{_datadir}/%{name} \
+		MAN=$RPM_BUILD_ROOT%{_mandir}
+done
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -89,3 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/%{name}
 %{_mandir}/man?/*
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/%{name}*
+# FIXME: verify this path on x86_64, does Kismet search in lib64 or here?
+%attr(755,root,root) %{_prefix}/lib/kismet
+%attr(755,root,root) %{_prefix}/lib/kismet_client
