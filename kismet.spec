@@ -7,7 +7,7 @@ Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2010_01_R1
 %define	_ver	2010-01-R1
-Release:	5
+Release:	6
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{_ver}.tar.gz
@@ -28,6 +28,8 @@ BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
+# plugin-btscan.so, not detected automatically for whatever reason
+Requires:	bluez-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define	plugins	plugin-autowep plugin-btscan plugin-ptw plugin-spectools
@@ -67,7 +69,8 @@ CPPFLAGS="-I/usr/include/ncurses"
 	--enable-zaurus
 %endif
 
-%{__make}
+%{__make} \
+	CLIENTLIBS="-ldl -lncurses -lpanel -ltinfo"  # hack to add -ltinfo
 
 for plugin in %plugins; do
 	sed -ie 's/install -o $(INSTUSR) -g $(INSTGRP)/install/' $plugin/Makefile
