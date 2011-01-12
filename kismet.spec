@@ -1,6 +1,6 @@
-#
-# TODO: Anybody knows, why it will not build,
-#	when kernel-headers are installed?
+# TODO
+#  - Anybody knows, why it will not build, when kernel-headers are installed?
+#  - maybe subpkg server and add initscript to it?
 #
 %define		tarver	%(echo %{version} | tr _ -)
 Summary:	Wireless network sniffer
@@ -28,8 +28,6 @@ BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
-# plugin-btscan.so, not detected automatically for whatever reason
-Requires:	bluez-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		plugins	plugin-autowep plugin-btscan plugin-ptw plugin-spectools
