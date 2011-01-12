@@ -1,0 +1,22 @@
+--- kismet-2010-07-R1/conf/kismet.conf.in~	2010-05-23 17:04:25.000000000 +0300
++++ kismet-2010-07-R1/conf/kismet.conf.in	2011-01-12 23:48:34.065930750 +0200
+@@ -10,7 +10,7 @@
+ servername=Kismet_2009
+ 
+ # Prefix of where we log (as used in the logtemplate later)
+-# logprefix=/some/path/to/logs
++logprefix=@localstatedir@/log/kismet
+ 
+ # Do we process the contents of data frames?  If this is enabled, data
+ # frames will be truncated to the headers only immediately after frame type
+@@ -121,8 +121,8 @@
+ # OUI file, expected format 00:11:22<tab>manufname
+ # IEEE OUI file used to look up manufacturer info.  We default to the
+ # wireshark one since most people have that.
+-ouifile=/etc/manuf
+-ouifile=/usr/share/wireshark/wireshark/manuf
++#ouifile=/etc/manuf
++#ouifile=/usr/share/wireshark/wireshark/manuf
+ ouifile=/usr/share/wireshark/manuf
+ 
+ # Do we have a GPS?

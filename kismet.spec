@@ -1,17 +1,18 @@
 # TODO
 #  - Anybody knows, why it will not build, when kernel-headers are installed?
-#  - maybe subpkg server and add initscript to it?
+#  - maybe subpkg server and add initscript to it? especially as kismet server can be remote
 #
 %define		tarver	%(echo %{version} | tr _ -)
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2010_07_R1
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.gz
 # Source0-md5:	85e59186eb529889118b5635f35cf57d
+Patch0:		config.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -50,6 +51,7 @@ wsparcie dla kart bez obsługi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{tarver}
+%patch0 -p1
 
 # make lib64 aware, include exec bits on install
 %{__sed} -i -e 's!\$(prefix)/lib/!%_libdir/!g' plugin-*/Makefile
@@ -76,7 +78,7 @@ done
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir}}
+install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir},/var/lib/%{name}}
 for dir in . %plugins; do
 	%{__make} -C $dir install \
 		DESTDIR="$RPM_BUILD_ROOT" \
@@ -111,3 +113,5 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kismet/spectool_net.so
 %attr(755,root,root) %{_libdir}/kismet_client/btscan_ui.so
 %attr(755,root,root) %{_libdir}/kismet_client/spectools_ui.so
+
+%dir /var/lib/%{name}
