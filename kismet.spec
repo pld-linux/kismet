@@ -1,13 +1,15 @@
 # TODO
 #  - Anybody knows, why it will not build, when kernel-headers are installed?
-#  - maybe subpkg server and add initscript to it? especially as kismet server can be remote
+#  - maybe subpkg server and add initscript to it? especially as kismet server
+#    can be remote. kismet_capture would still be in client package?
+#  - update ncurses patch for tinfo, make it detect wide versions as well
 #
 %define		tarver	%(echo %{version} | tr _ -)
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2010_07_R1
-Release:	0.2
+Release:	0.3
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.gz
@@ -88,6 +90,9 @@ for dir in . %plugins; do
 		MANGRP=%(id -gn)
 done
 
+# do what binsuidinstall would do
+install -p kismet_capture $RPM_BUILD_ROOT%{_bindir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -98,6 +103,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/kismet_client
 %attr(755,root,root) %{_bindir}/kismet_drone
 %attr(755,root,root) %{_bindir}/kismet_server
+# TODO: create kismet group instead
+%attr(4750,root,adm) %{_bindir}/kismet_capture
 %{_datadir}/%{name}
 %{_mandir}/man1/kismet.1*
 %{_mandir}/man1/kismet_drone.1*
