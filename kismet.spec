@@ -1,15 +1,12 @@
 # TODO
 #  - Anybody knows, why it will not build, when kernel-headers are installed?
-#  - maybe subpkg server and add initscript to it? especially as kismet server
-#    can be remote. kismet_capture would still be in client package?
-#  - update ncurses patch for tinfo, make it detect wide versions as well
 #
 %define		tarver	%(echo %{version} | tr _ -)
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2010_07_R1
-Release:	0.4
+Release:	0.6
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.gz
@@ -29,6 +26,7 @@ BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
+Suggests:	%{name}-server
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -50,6 +48,17 @@ w Linuksie włączając w to karty Prism2 wspierane przez projekt Wlan-NG
 (Linksys, Dlink, Rangelan, etc), kart które umożliwiają
 przechwytywanie pakietów poprzez libpcap (Cisco), oraz ograniczone
 wsparcie dla kart bez obsługi Monitora RF.
+
+%package server
+Summary:	Server for Kismet
+Group:		Networking/Daemons
+Requires(postun):	/usr/sbin/groupdel
+Requires(pre):	/usr/sbin/groupadd
+Provides:	group(kismet)
+
+%description server
+This package contains kismet_server which you can access with kismet
+protocol compatible clients.
 
 %prep
 %setup -q -n %{name}-%{tarver}
@@ -96,30 +105,38 @@ install -p kismet_capture $RPM_BUILD_ROOT%{_bindir}
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre server
+%groupadd -P %{name}-server -g 180 kismet
+
+%preun server
+if [ "$1" = "0" ]; then
+	%groupremove kismet
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc docs/* CHANGELOG README README.plugin-*
 %attr(755,root,root) %{_bindir}/kismet
 %attr(755,root,root) %{_bindir}/kismet_client
-%attr(755,root,root) %{_bindir}/kismet_drone
-%attr(755,root,root) %{_bindir}/kismet_server
-# TODO: create kismet group instead
-%attr(4750,root,adm) %{_bindir}/kismet_capture
 %{_datadir}/%{name}
 %{_mandir}/man1/kismet.1*
 %{_mandir}/man1/kismet_drone.1*
-%{_mandir}/man5/kismet.conf.5*
-%{_mandir}/man5/kismet_drone.conf.5*
+%dir %{_libdir}/kismet_client
+%attr(755,root,root) %{_libdir}/kismet_client/btscan_ui.so
+%attr(755,root,root) %{_libdir}/kismet_client/spectools_ui.so
+
+%files server
+%defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_drone.conf
+%attr(4750,root,kismet) %{_bindir}/kismet_capture
+%attr(755,root,root) %{_bindir}/kismet_drone
+%attr(755,root,root) %{_bindir}/kismet_server
+%{_mandir}/man5/kismet.conf.5*
+%{_mandir}/man5/kismet_drone.conf.5*
 %dir %{_libdir}/kismet
-%dir %{_libdir}/kismet_client
 %attr(755,root,root) %{_libdir}/kismet/aircrack-kismet.so
 %attr(755,root,root) %{_libdir}/kismet/autowep-kismet.so
 %attr(755,root,root) %{_libdir}/kismet/btscan.so
 %attr(755,root,root) %{_libdir}/kismet/spectool_net.so
-%attr(755,root,root) %{_libdir}/kismet_client/btscan_ui.so
-%attr(755,root,root) %{_libdir}/kismet_client/spectools_ui.so
-
-# TODO: kismet group
-%dir %attr(770,root,adm) /var/log/%{name}
+%dir %attr(770,root,kismet) /var/log/%{name}
