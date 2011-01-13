@@ -25,3 +25,14 @@
  # Do we use a locally serial attached GPS, or use a gpsd server?
  # (Pick only one)
  gpstype=gpsd
+--- kismet-2010-07-R1/conf/kismet_drone.conf~	2008-12-11 00:12:27.000000000 +0200
++++ kismet-2010-07-R1/conf/kismet_drone.conf	2011-01-13 20:03:48.696974538 +0200
+@@ -16,7 +16,7 @@
+ droneringlen=65535
+ 
+ # Do we have a GPS?
+-gps=true
++gps=false
+ # Do we use a locally serial attached GPS, or use a gpsd server?
+ # (Pick only one)
+ gpstype=gpsd
