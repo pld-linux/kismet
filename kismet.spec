@@ -6,7 +6,7 @@ Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2011_03_R2
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.gz
@@ -79,8 +79,7 @@ cp -f /usr/share/automake/config.* .
 %{__autoconf}
 %configure
 
-%{__make} \
-	CLIENTLIBS="-ldl -lncurses -lpanel -ltinfo"  # hack to add -ltinfo
+%{__make}
 
 for plugin in %plugins; do
 	%{__make} -C $plugin \
