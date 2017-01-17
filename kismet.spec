@@ -5,12 +5,12 @@
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2011_03_R2
-Release:	10
+Version:	2016_07_R1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
-Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.gz
-# Source0-md5:	8bf077e8111e6dc8c12cadefdf40aadd
+Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
+# Source0-md5:	7fa6e86c5078a0e7d91fc9bf954c5107
 Patch0:		config.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	autoconf
@@ -31,7 +31,7 @@ Suggests:	%{name}-server
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		plugins	plugin-autowep plugin-btscan plugin-ptw plugin-spectools
+%define		plugins	plugin-alertsyslog plugin-btscan plugin-spectools plugin-syslog
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
@@ -134,8 +134,8 @@ fi
 %{_mandir}/man5/kismet.conf.5*
 %{_mandir}/man5/kismet_drone.conf.5*
 %dir %{_libdir}/kismet
-%attr(755,root,root) %{_libdir}/kismet/aircrack-kismet.so
-%attr(755,root,root) %{_libdir}/kismet/autowep-kismet.so
+%attr(755,root,root) %{_libdir}/kismet/kismet-syslog.so
+%attr(755,root,root) %{_libdir}/kismet/alertsyslog.so
 %attr(755,root,root) %{_libdir}/kismet/btscan.so
 %attr(755,root,root) %{_libdir}/kismet/spectool_net.so
 %dir %attr(770,root,kismet) /var/log/%{name}
