@@ -5,12 +5,12 @@
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2016_07_R1
-Release:	4
+Version:	2021_05_R1
+Release:	0.1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
-# Source0-md5:	7fa6e86c5078a0e7d91fc9bf954c5107
+# Source0-md5:	df4cc90d5183b7fd45846a33bf598339
 Patch0:		config.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	autoconf
@@ -20,6 +20,7 @@ BuildRequires:	gmp-devel
 BuildRequires:	libcap-devel
 BuildRequires:	libnl-devel
 BuildRequires:	libpcap-devel >= 2:0.9.4-1
+BuildRequires:	libwebsockets-devel >= 3.1.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	ncurses-ext-devel
 BuildRequires:	openssl-devel
@@ -31,7 +32,7 @@ Suggests:	%{name}-server
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		plugins	plugin-alertsyslog plugin-btscan plugin-spectools plugin-syslog
+%define		plugins	plugin-alertsyslog plugin-dashboard
 
 %description
 Kismet is a 802.11b wireless network sniffer. It is capable of
@@ -79,7 +80,8 @@ cp -f /usr/share/automake/config.* .
 %{__autoconf}
 %configure
 
-%{__make}
+# -j1 due to OOM
+%{__make} -j1
 
 for plugin in %plugins; do
 	%{__make} -C $plugin \
@@ -95,11 +97,9 @@ for dir in . %plugins; do
 		KIS_SRC_DIR=$PWD \
 		INSTUSR=%(id -un) \
 		INSTGRP=%(id -gn) \
+		SUIDGROUP=%(id -gn) \
 		MANGRP=%(id -gn)
 done
-
-# do what binsuidinstall would do
-install -p kismet_capture $RPM_BUILD_ROOT%{_bindir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -114,28 +114,15 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc docs/* CHANGELOG README README.plugin-*
+%doc CHANGELOG README.md README.plugin-alertsyslog README.plugin-dashboard
 %attr(755,root,root) %{_bindir}/kismet
-%attr(755,root,root) %{_bindir}/kismet_client
 %{_datadir}/%{name}
-%{_mandir}/man1/kismet.1*
-%{_mandir}/man1/kismet_drone.1*
-%dir %{_libdir}/kismet_client
-%attr(755,root,root) %{_libdir}/kismet_client/btscan_ui.so
-%attr(755,root,root) %{_libdir}/kismet_client/spectools_ui.so
 
 %files server
 %defattr(644,root,root,755)
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet.conf
-%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_drone.conf
-%attr(4750,root,kismet) %{_bindir}/kismet_capture
-%attr(755,root,root) %{_bindir}/kismet_drone
 %attr(755,root,root) %{_bindir}/kismet_server
-%{_mandir}/man5/kismet.conf.5*
-%{_mandir}/man5/kismet_drone.conf.5*
 %dir %{_libdir}/kismet
-%attr(755,root,root) %{_libdir}/kismet/kismet-syslog.so
-%attr(755,root,root) %{_libdir}/kismet/alertsyslog.so
-%attr(755,root,root) %{_libdir}/kismet/btscan.so
-%attr(755,root,root) %{_libdir}/kismet/spectool_net.so
+#%attr(755,root,root) %{_libdir}/kismet/alertsyslog.so
+#%attr(755,root,root) %{_libdir}/kismet/spectool_net.so
 %dir %attr(770,root,kismet) /var/log/%{name}
