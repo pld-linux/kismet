@@ -1,17 +1,13 @@
-# TODO
-#  - Anybody knows, why it will not build, when kernel-headers are installed?
-#
 %define		tarver	%(echo %{version} | tr _ -)
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2021_05_R1
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
 # Source0-md5:	df4cc90d5183b7fd45846a33bf598339
-Patch0:		config.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -20,14 +16,17 @@ BuildRequires:	gmp-devel
 BuildRequires:	libcap-devel
 BuildRequires:	libnl-devel
 BuildRequires:	libpcap-devel >= 2:0.9.4-1
-BuildRequires:	libwebsockets-devel >= 3.1.0
 BuildRequires:	libstdc++-devel
+BuildRequires:	libwebsockets-devel >= 3.1.0
 BuildRequires:	ncurses-ext-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig
 BuildRequires:	sed >= 4.0
-Suggests:	%{name}-server
+Requires(postun):	/usr/sbin/groupdel
+Requires(pre):	/usr/sbin/groupadd
+Provides:	group(kismet)
+Obsoletes:	kismet-server < 2021_05_R1
 # it uses internal structures - so strict deps
 %requires_eq	libpcap
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -50,20 +49,8 @@ w Linuksie włączając w to karty Prism2 wspierane przez projekt Wlan-NG
 przechwytywanie pakietów poprzez libpcap (Cisco), oraz ograniczone
 wsparcie dla kart bez obsługi Monitora RF.
 
-%package server
-Summary:	Server for Kismet
-Group:		Networking/Daemons
-Requires(postun):	/usr/sbin/groupdel
-Requires(pre):	/usr/sbin/groupadd
-Provides:	group(kismet)
-
-%description server
-This package contains kismet_server which you can access with kismet
-protocol compatible clients.
-
 %prep
 %setup -q -n %{name}-%{tarver}
-%patch0 -p1
 
 # make lib64 aware, include exec bits on install
 %{__sed} -i -e 's!\$(prefix)/lib/!%_libdir/!g' plugin-*/Makefile
@@ -104,25 +91,58 @@ done
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%pre server
-%groupadd -P %{name}-server -g 180 kismet
+%pre
+%groupadd -P %{name} -g 180 kismet
 
-%preun server
+%preun
 if [ "$1" = "0" ]; then
 	%groupremove kismet
 fi
 
+%triggerpostun -- kismet-server < 2021_05_R1
+%groupadd -P %{name} -g 180 kismet
+
 %files
 %defattr(644,root,root,755)
-%doc CHANGELOG README.md README.plugin-alertsyslog README.plugin-dashboard
-%attr(755,root,root) %{_bindir}/kismet
-%{_datadir}/%{name}
-
-%files server
-%defattr(644,root,root,755)
+%doc README.md README.plugin-alertsyslog README.plugin-dashboard
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_80211.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_alerts.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_filter.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_httpd.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_logging.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_memory.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_uav.conf
+%attr(755,root,root) %{_bindir}/kismet
+%attr(755,root,root) %{_bindir}/kismet_cap_freaklabs_zigbee
+%attr(755,root,root) %{_bindir}/kismet_cap_kismetdb
+%attr(755,root,root) %{_bindir}/kismet_cap_linux_bluetooth
+%attr(755,root,root) %{_bindir}/kismet_cap_linux_wifi
+%attr(755,root,root) %{_bindir}/kismet_cap_nrf_51822
+%attr(755,root,root) %{_bindir}/kismet_cap_nrf_52840
+%attr(755,root,root) %{_bindir}/kismet_cap_nrf_mousejack
+%attr(755,root,root) %{_bindir}/kismet_cap_nxp_kw41z
+%attr(755,root,root) %{_bindir}/kismet_cap_pcapfile
+%attr(755,root,root) %{_bindir}/kismet_cap_rz_killerbee
+%attr(755,root,root) %{_bindir}/kismet_cap_sdr_rtl433
+%attr(755,root,root) %{_bindir}/kismet_cap_sdr_rtladsb
+%attr(755,root,root) %{_bindir}/kismet_cap_sdr_rtlamr
+%attr(755,root,root) %{_bindir}/kismet_cap_ti_cc_2531
+%attr(755,root,root) %{_bindir}/kismet_cap_ti_cc_2540
+%attr(755,root,root) %{_bindir}/kismet_discovery
 %attr(755,root,root) %{_bindir}/kismet_server
+%attr(755,root,root) %{_bindir}/kismetdb_clean
+%attr(755,root,root) %{_bindir}/kismetdb_dump_devices
+%attr(755,root,root) %{_bindir}/kismetdb_statistics
+%attr(755,root,root) %{_bindir}/kismetdb_strip_packets
+%attr(755,root,root) %{_bindir}/kismetdb_to_gpx
+%attr(755,root,root) %{_bindir}/kismetdb_to_kml
+%attr(755,root,root) %{_bindir}/kismetdb_to_pcap
+%attr(755,root,root) %{_bindir}/kismetdb_to_wiglecsv
+%{_datadir}/%{name}
 %dir %{_libdir}/kismet
-#%attr(755,root,root) %{_libdir}/kismet/alertsyslog.so
-#%attr(755,root,root) %{_libdir}/kismet/spectool_net.so
-%dir %attr(770,root,kismet) /var/log/%{name}
+%dir %{_libdir}/kismet/alertsyslog
+%attr(755,root,root) %{_libdir}/kismet/alertsyslog/alertsyslog.so
+%{_libdir}/kismet/alertsyslog/manifest.conf
+%{_libdir}/kismet/dashboard
+%{py3_sitedir}/KismetCapture*
