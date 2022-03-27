@@ -1,0 +1,12 @@
+--- kismet-2021-05-R1/configure.ac~	2021-05-20 00:58:52.000000000 +0200
++++ kismet-2021-05-R1/configure.ac	2022-03-27 20:38:53.095863552 +0200
+@@ -209,9 +209,6 @@
+ 
+ AC_SUBST(PLUGINLDFLAGS)
+ 
+-CXXFLAGS="$CXXFLAGS -O3"
+-CFLAGS="$CFLAGS -O3"
+-
+ if test "$cygwin" = "yes"; then
+ 	AC_MSG_CHECKING(cygwin compile flags)
+ 	AC_MSG_RESULT(__MINGW32__)

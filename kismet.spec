@@ -8,6 +8,7 @@ License:	GPL
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
 # Source0-md5:	df4cc90d5183b7fd45846a33bf598339
+Patch0:		opt.patch
 URL:		http://www.kismetwireless.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -51,6 +52,7 @@ wsparcie dla kart bez obsługi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{tarver}
+%patch0 -p1
 
 # make lib64 aware, include exec bits on install
 %{__sed} -i -e 's!\$(prefix)/lib/!%_libdir/!g' plugin-*/Makefile
