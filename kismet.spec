@@ -147,4 +147,4 @@ fi
 %attr(755,root,root) %{_libdir}/kismet/alertsyslog/alertsyslog.so
 %{_libdir}/kismet/alertsyslog/manifest.conf
 %{_libdir}/kismet/dashboard
-%{py3_sitedir}/KismetCapture*
+%{py3_sitescriptdir}/KismetCapture*
