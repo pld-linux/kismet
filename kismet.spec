@@ -2,30 +2,49 @@
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2021_05_R1
-Release:	5
-License:	GPL
+Version:	2022_02_R1
+Release:	1
+License:	GPL v2+
 Group:		Networking/Utilities
 Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
-# Source0-md5:	df4cc90d5183b7fd45846a33bf598339
+# Source0-md5:	35eda7c521e007e5b324ae05d576ab33
 Patch0:		opt.patch
 URL:		http://www.kismetwireless.net/
-BuildRequires:	autoconf
+BuildRequires:	NetworkManager-devel
+BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
 BuildRequires:	bluez-libs-devel
+BuildRequires:	elfutils-devel
 BuildRequires:	gmp-devel
+# optional (with --enable-bladerf, disabled by default)
+#BuildRequires:	libbladeRF-devel >= 2.2.1
+# for ubertooth support (TODO?)
+#BuildRequires:	libbtbb-devel
 BuildRequires:	libcap-devel
 BuildRequires:	libnl-devel
 BuildRequires:	libpcap-devel >= 2:0.9.4-1
-BuildRequires:	libstdc++-devel
+# optional (with --enable-prelude, disabled by default)
+#BuildRequires:	libprelude-devel >= 1.2.6
+BuildRequires:	libstdc++-devel >= 6:5
+BuildRequires:	libunwind-devel
+BuildRequires:	libusb-devel >= 1.0
 BuildRequires:	libwebsockets-devel >= 3.1.0
+BuildRequires:	lm_sensors-devel
 BuildRequires:	ncurses-ext-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pcre-devel
+BuildRequires:	protobuf-c-devel
+BuildRequires:	protobuf-devel
 BuildRequires:	pkgconfig
+BuildRequires:	python3 >= 1:3
+BuildRequires:	python3-setuptools
 BuildRequires:	sed >= 4.0
+BuildRequires:	sqlite3-devel >= 3
+# for ubertooth support (TODO?)
+#BuildRequires:	ubertooth-devel
+BuildRequires:	zlib-devel
 Requires(postun):	/usr/sbin/groupdel
-Requires(pre):	/usr/sbin/groupadd
+Requires(pre,post):	/usr/sbin/groupadd
 Provides:	group(kismet)
 Obsoletes:	kismet-server < 2021_05_R1
 # it uses internal structures - so strict deps
@@ -60,7 +79,7 @@ wsparcie dla kart bez obsługi Monitora RF.
 
 # make %doc friendly
 for a in plugin-*/README; do
-	mv $a README.${a%/README}
+	%{__mv} $a README.${a%/README}
 done
 
 %build
@@ -80,6 +99,7 @@ done
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir},%{_bindir},%{_datadir},/var/log/%{name}}
+
 for dir in . %plugins; do
 	%{__make} -C $dir install \
 		DESTDIR="$RPM_BUILD_ROOT" \
@@ -96,7 +116,7 @@ rm -rf $RPM_BUILD_ROOT
 %pre
 %groupadd -P %{name} -g 180 kismet
 
-%preun
+%postun
 if [ "$1" = "0" ]; then
 	%groupremove kismet
 fi
@@ -115,6 +135,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_logging.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_memory.conf
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_uav.conf
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_wardrive.conf
 %attr(755,root,root) %{_bindir}/kismet
 %attr(755,root,root) %{_bindir}/kismet_cap_freaklabs_zigbee
 %attr(755,root,root) %{_bindir}/kismet_cap_kismetdb
@@ -147,4 +168,5 @@ fi
 %attr(755,root,root) %{_libdir}/kismet/alertsyslog/alertsyslog.so
 %{_libdir}/kismet/alertsyslog/manifest.conf
 %{_libdir}/kismet/dashboard
+%{_pkgconfigdir}/kismet.pc
 %{py3_sitescriptdir}/KismetCapture*
