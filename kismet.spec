@@ -1,3 +1,8 @@
+#
+# Conditional build:
+%bcond_with	bladeRF	# BladeRF support
+%bcond_with	prelude	# libprelude support
+
 %define		tarver	%(echo %{version} | tr _ -)
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
@@ -13,18 +18,15 @@ URL:		http://www.kismetwireless.net/
 BuildRequires:	NetworkManager-devel
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
+%{?with_bladeRF:BuildRequires:	bladeRF-devel >= 2.2.1}
 BuildRequires:	bluez-libs-devel
 BuildRequires:	elfutils-devel
 BuildRequires:	gmp-devel
-# optional (with --enable-bladerf, disabled by default)
-#BuildRequires:	libbladeRF-devel >= 2.2.1
-# for ubertooth support (TODO?)
-#BuildRequires:	libbtbb-devel
+BuildRequires:	libbtbb-devel
 BuildRequires:	libcap-devel
 BuildRequires:	libnl-devel
 BuildRequires:	libpcap-devel >= 2:0.9.4-1
-# optional (with --enable-prelude, disabled by default)
-#BuildRequires:	libprelude-devel >= 1.2.6
+%{?with_prelude:BuildRequires:	libprelude-devel >= 1.2.6}
 BuildRequires:	libstdc++-devel >= 6:5
 BuildRequires:	libunwind-devel
 BuildRequires:	libusb-devel >= 1.0
@@ -40,8 +42,7 @@ BuildRequires:	python3 >= 1:3
 BuildRequires:	python3-setuptools
 BuildRequires:	sed >= 4.0
 BuildRequires:	sqlite3-devel >= 3
-# for ubertooth support (TODO?)
-#BuildRequires:	ubertooth-devel
+BuildRequires:	ubertooth-devel
 BuildRequires:	zlib-devel
 Requires(postun):	/usr/sbin/groupdel
 Requires(pre,post):	/usr/sbin/groupadd
@@ -86,7 +87,9 @@ done
 cp -f /usr/share/automake/config.* .
 %{__aclocal}
 %{__autoconf}
-%configure
+%configure \
+	%{?with_bladeRF:--enable-bladerf} \
+	%{?with_prelude:--enable-prelude}
 
 # -j1 due to OOM
 %{__make} -j1
@@ -152,6 +155,7 @@ fi
 %attr(755,root,root) %{_bindir}/kismet_cap_sdr_rtlamr
 %attr(755,root,root) %{_bindir}/kismet_cap_ti_cc_2531
 %attr(755,root,root) %{_bindir}/kismet_cap_ti_cc_2540
+%attr(755,root,root) %{_bindir}/kismet_cap_ubertooth_one
 %attr(755,root,root) %{_bindir}/kismet_discovery
 %attr(755,root,root) %{_bindir}/kismet_server
 %attr(755,root,root) %{_bindir}/kismetdb_clean
