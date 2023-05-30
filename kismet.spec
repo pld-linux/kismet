@@ -7,14 +7,14 @@
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2022_02_R1
+Version:	2022_08_R1
 Release:	1
 License:	GPL v2+
 Group:		Networking/Utilities
-Source0:	http://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
-# Source0-md5:	35eda7c521e007e5b324ae05d576ab33
+Source0:	https://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
+# Source0-md5:	7ae3652362ad209a751ab8652cd0ee76
 Patch0:		opt.patch
-URL:		http://www.kismetwireless.net/
+URL:		https://www.kismetwireless.net/
 BuildRequires:	NetworkManager-devel
 BuildRequires:	autoconf >= 2.57
 BuildRequires:	automake
