@@ -7,12 +7,12 @@
 Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
-Version:	2022_08_R1
+Version:	2023_07_R1
 Release:	1
 License:	GPL v2+
 Group:		Networking/Utilities
 Source0:	https://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
-# Source0-md5:	7ae3652362ad209a751ab8652cd0ee76
+# Source0-md5:	d6c82b241de1be72d2dcb5e0102d8c99
 Patch0:		opt.patch
 URL:		https://www.kismetwireless.net/
 BuildRequires:	NetworkManager-devel
@@ -34,7 +34,7 @@ BuildRequires:	libwebsockets-devel >= 3.1.0
 BuildRequires:	lm_sensors-devel
 BuildRequires:	ncurses-ext-devel
 BuildRequires:	openssl-devel
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-8-devel
 BuildRequires:	protobuf-c-devel
 BuildRequires:	protobuf-devel
 BuildRequires:	pkgconfig
@@ -113,6 +113,9 @@ for dir in . %plugins; do
 		MANGRP=%(id -gn)
 done
 
+# multiple "-" in version is not accepted, use _ instead
+%{__sed} -i -e '/^Version:/ s/: .*/: %{version}/' $RPM_BUILD_ROOT%{_pkgconfigdir}/kismet.pc
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -141,6 +144,7 @@ fi
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/kismet_wardrive.conf
 %attr(755,root,root) %{_bindir}/kismet
 %attr(755,root,root) %{_bindir}/kismet_cap_freaklabs_zigbee
+%attr(755,root,root) %{_bindir}/kismet_cap_hak5_wifi_coconut
 %attr(755,root,root) %{_bindir}/kismet_cap_kismetdb
 %attr(755,root,root) %{_bindir}/kismet_cap_linux_bluetooth
 %attr(755,root,root) %{_bindir}/kismet_cap_linux_wifi
