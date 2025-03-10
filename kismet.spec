@@ -8,7 +8,7 @@ Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2023_07_R1
-Release:	1
+Release:	
 License:	GPL v2+
 Group:		Networking/Utilities
 Source0:	https://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
