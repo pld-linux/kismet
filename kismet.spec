@@ -8,7 +8,7 @@ Summary:	Wireless network sniffer
 Summary(pl.UTF-8):	Sniffer sieci bezprzewodowych
 Name:		kismet
 Version:	2023_07_R1
-Release:	
+Release:	2
 License:	GPL v2+
 Group:		Networking/Utilities
 Source0:	https://www.kismetwireless.net/code/%{name}-%{tarver}.tar.xz
@@ -35,9 +35,9 @@ BuildRequires:	lm_sensors-devel
 BuildRequires:	ncurses-ext-devel
 BuildRequires:	openssl-devel
 BuildRequires:	pcre2-8-devel
+BuildRequires:	pkgconfig
 BuildRequires:	protobuf-c-devel
 BuildRequires:	protobuf-devel
-BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3
 BuildRequires:	python3-setuptools
 BuildRequires:	sed >= 4.0
@@ -72,7 +72,7 @@ wsparcie dla kart bez obsługi Monitora RF.
 
 %prep
 %setup -q -n %{name}-%{tarver}
-%patch0 -p1
+%patch -P 0 -p1
 
 # make lib64 aware, include exec bits on install
 %{__sed} -i -e 's!\$(prefix)/lib/!%_libdir/!g' plugin-*/Makefile
